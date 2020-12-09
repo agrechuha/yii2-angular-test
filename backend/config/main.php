@@ -42,6 +42,7 @@ return [
             'showScriptName' => false,
             'rules' => require(Yii::getAlias('@backend').'/config/routes.php'),
         ],
+        ['123456']
 
     ],
     'params' => $params,
