@@ -37,14 +37,12 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => require(Yii::getAlias('@backend').'/config/routes.php'),
         ],
-        */
+
     ],
     'params' => $params,
 ];
