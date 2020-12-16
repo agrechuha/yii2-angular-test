@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Создание нового материала</div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label>Название</label>
+            <input class="form-control" placeholder="Введите название книги" #bookName />
+          </div>
+          <div class="form-group">
+            <label>Картинка</label>
+            <input class="form-control" placeholder="Ссылка на изображение" #bookSrc />
+          </div>
+          <div class="form-group">
+            <label>Дата</label>
+            <input class="form-control" placeholder="Введите дату публикации" #createDate />
+          </div>
+          <div class="form-group">
+            <label>Детальное описание</label>
+            <textarea class="form-control" placeholder="Детальное описание" #bookDescription ></textarea>
+          </div>
+          <div class="form-group">
+            <label>Автор</label>
+            <input class="form-control" placeholder="Автор" #bookAuthor />
+          </div>
+          <button (click)="add(bookName.value, bookSrc.value, createDate.value, bookDescription.value, bookAuthor.value);
+                    bookName.value='';  bookSrc.value=''; createDate.value=''; bookDescription.value=''; bookAuthor.value=''"
+                  class="btn btn-primary">Отправить</button>
+          <a [routerLink]="['/books']" class="btn btn-default">Назад</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6"></div>
+  </div>
+</div>

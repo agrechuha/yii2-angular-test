@@ -14,6 +14,9 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -39,7 +42,7 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => require(Yii::getAlias('@frontend').'/config/routes.php'),
+            'rules' => require(Yii::getAlias('@frontend') . '/config/routes.php'),
         ],
     ],
     'params' => $params,
