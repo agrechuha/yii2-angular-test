@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\Contacts;
+use SebastianBergmann\Comparator\Book;
 use Yii;
 use common\models\Books;
 use common\models\BooksSearch;
@@ -26,5 +28,25 @@ class ApibooksController extends ActiveController
                 'class' => \yii\filters\Cors::className(),
             ],
         ]);
+    }
+
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionAnotherList(): array
+    {
+        $books = Books::find()->where(['like', 'title', 'Ленинград'])->all();
+        foreach ($books as $book) {
+            $book->created_at = Yii::$app->formatter->asDateTime($book->created_at, 'dd MMMM HH:mm');
+        }
+        return $books;
+    }
+
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function actionContacts(): array {
+        return Contacts::find()->all();
     }
 }

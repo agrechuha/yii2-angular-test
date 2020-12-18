@@ -1,4 +1,4 @@
-import {HttpHeaders, HttpClient} from '@angular/common/http';
+import {HttpHeaders, HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {Book} from './book';
@@ -20,6 +20,13 @@ export class BookService {
     return this.http.get(this.booksUrl)
       .toPromise()
       .then(response => response as Book[])
+      .catch(this.handleError);
+  }
+
+  getAnotherData(): Promise<Book[]> {
+    return this.http.get(`${this.booksUrl}/another-list`)
+      .toPromise()
+      .then(response => response as any)
       .catch(this.handleError);
   }
 
