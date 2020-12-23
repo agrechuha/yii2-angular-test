@@ -1,0 +1,27 @@
+<base href="/">
+<div class="site-about">
+  <div class="body-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            <a class="btn btn-lg btn-success" [routerLink]="['/books/create']">+ Добавить материал</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div *ngFor="let book of books" class="col-xs-6 col-md-2">
+          <a routerLink="/detail/{{book.id}}" class="thumbnail">
+            <img src="{{book.src}}" style="width:200px;height:200px;">
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <a [routerLink]="['/books/another-list']" class="btn btn-success another-list">Another book list</a>
+      </div>
+    </div>
+  </div>
+</div>
+
