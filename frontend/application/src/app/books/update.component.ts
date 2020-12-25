@@ -1,4 +1,4 @@
-import {switchMap} from 'rxjs/operators';
+import {switchMap, timeout} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 
 import {BookService} from '../book.service';
@@ -31,12 +31,13 @@ export class UpdateComponent implements OnInit {
   }
 
   getBooks(): any {
-    this.route.params.pipe(switchMap((params: Params) => this._bookService.getDetail(+params['id'])))
+    this.route.params.pipe(switchMap((params: Params) => this._bookService.getDetail(+params.id)))
       .subscribe((book: Book) => this.book = book);
   }
 
   save(): void {
     this._bookService.update(this.book);
+    this.goBack();
   }
 
   goBack(): void {

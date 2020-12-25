@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\controllers;
+namespace frontend\controllers\api;
 
 use common\models\Contacts;
 use frontend\models\SignupForm;
@@ -11,20 +11,22 @@ use yii\rest\ActiveController;
 /**
  * ApiBooksController implements the CRUD actions for Books model.
  */
-class ApibooksController extends ActiveController
+class ApibooksController extends BaseController
 {
     public $modelClass = 'common\models\Books';
 
     /**
-     * {@inheritdoc}
+     * @return array|array[]
      */
-    public function behaviors()
+    public function behaviors(): array
     {
-        return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
-            'corsFilter' => [
-                'class' => \yii\filters\Cors::className(),
-            ],
-        ]);
+        $behaviors = parent::behaviors();
+        unset($behaviors['authenticator']);
+        return $behaviors;
+    }
+
+    public function actionIndex() {
+        return Books::find()->all();
     }
 
     /**
@@ -38,14 +40,6 @@ class ApibooksController extends ActiveController
             $book->created_at = Yii::$app->formatter->asDateTime($book->created_at, 'dd MMMM HH:mm');
         }
         return $books;
-    }
-
-    /**
-     * @return array|\yii\db\ActiveRecord[]
-     */
-    public function actionContacts(): array
-    {
-        return Contacts::find()->all();
     }
 
     public function actionSignup()

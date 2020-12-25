@@ -13,7 +13,10 @@ import {map} from 'rxjs/operators';
 // @ts-ignore
 export class BookService {
 
-  private headers = new HttpHeaders({'Content-Type': 'application/json'});
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Credentials': '*'
+  });
   private booksUrl = 'http://yii2-advanced.loc/api/api/apibooks';  // URL to web api
 
   constructor(private http: HttpClient) {
@@ -51,12 +54,13 @@ export class BookService {
       .pipe(catchError(this.handleError));
   }
 
-  update(book: Book): Observable<Book> {
+  update(book: Book): any {
     const url = `${this.booksUrl}/${book.id}`;
     return this.http
       .put(url, JSON.stringify(book), {headers: this.headers})
-      .pipe(map(() => book))
-      .pipe(catchError(this.handleError));
+      .pipe(map(response => response as Book[]))
+      .pipe(catchError(this.handleError))
+      .subscribe();
   }
 
   delete(id: number): Observable<void> {

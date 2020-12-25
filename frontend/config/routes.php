@@ -1,24 +1,26 @@
 <?php
 
 return [
-    '' => 'site/index',
-    '/' => 'site/index',
-    'books' => 'site/index',
-    'books/another-list' => 'site/index',
-    'books/<var:\w+>' => 'site/index',
-    'detail/<id:\d+>' => 'site/index',
-    'update/<id:\d+>' => 'site/index',
-    "contacts" => 'site/index',
-    "login" => 'site/index',
-    "signup" => 'site/index',
-    "logout" => 'site/index',
-
     [
         'class' => 'yii\rest\UrlRule',
-        'controller' => 'apibooks',
+        'controller' => 'api/apibooks',
         'extraPatterns' => [
             'GET books/another-list' => 'anotherList',
             'GET contacts' => 'contacts'
+        ]
+    ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'api/contacts',
+    ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'api/auth',
+        'extraPatterns' => [
+            'POST,HEAD,OPTIONS login' => 'login',
+            'POST,HEAD,OPTIONS signup' => 'signup',
+//            'OPTIONS login' => 'options',
+//            'OPTIONS signup' => 'options',
         ]
     ],
 
