@@ -1,0 +1,36 @@
+<div class="site-about">
+  <div class="body-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">Добавьте новый контакт</div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label>Имя</label>
+                <input class="form-control" type="text" placeholder="Имя" #name/>
+              </div>
+              <div class="form-group">
+                <label>Ссылка на автарар</label>
+                <input class="form-control" type="text" placeholder="src" #src/>
+              </div>
+              <div class="form-group">
+                <label>Номер телефона</label>
+                <input class="form-control" type="text" placeholder="телефон" #phone/>
+              </div>
+              <div class="form-group">
+                <label>Телеграм</label>
+                <input class="form-control" type="text" placeholder="telegram" #telegram/>
+              </div>
+              <button
+                (click)="add(name.value, src.value, phone.value, telegram.value);"
+                class="btn btn-success">Создать новый контакт
+              </button> <span>&nbsp;&nbsp;&nbsp;</span>
+              <a class="btn btn-primary" routerLink="/contacts">Назад к контактам</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

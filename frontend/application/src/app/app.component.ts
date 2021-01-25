@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
-import {BookService} from './book.service';
-import {ContactsService} from './contacts/contacts.service';
-import {SignupService} from './signup/signup.service';
+import {BookService} from './services/book.service';
+import {ContactsService} from './services/contacts.service';
+import {TestService} from './services/test.service';
+import {AuthService} from './services/auth.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,7 +15,7 @@ import {SignupService} from './signup/signup.service';
     <router-outlet></router-outlet>
     <app-footer></app-footer>
   `,
-  providers: [BookService, ContactsService, SignupService],
+  providers: [BookService, ContactsService, AuthService, TestService],
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {

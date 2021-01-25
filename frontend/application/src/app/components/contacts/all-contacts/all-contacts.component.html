@@ -1,0 +1,21 @@
+<div class="site-about">
+  <div class="body-content">
+    <div class="container">
+      <div class="row">
+        <div *ngFor="let contact of contacts" class="col-md-6">
+          <div class="image-container">
+            <img src="{{contact.src}}" alt="">
+          </div>
+          <div class="contact-information">
+            <div>{{contact.name}}</div>
+            <a href="tel:{{contact.phone}}">{{contact.phone}}</a>
+            <a href="tg://resolve?domain={{contact.telegram}}">{{contact.telegram}}</a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a class="btn btn-primary" routerLink="/contacts">Назад к контактам</a>
+      </div>
+    </div>
+  </div>
+</div>
