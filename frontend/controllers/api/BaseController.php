@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
+use yii\rest\Controller;
 use yii\web\Response;
 
 /**
@@ -14,6 +15,9 @@ use yii\web\Response;
  */
 class BaseController extends ActiveController
 {
+
+    public $enableCsrfValidation = false;
+
     /**
      * {@inheritdoc}
      */
@@ -28,6 +32,14 @@ class BaseController extends ActiveController
         // add CORS filter
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
+            'cors' => [
+                'Access-Control-Allow-Origin' => ['*'],
+                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+                'Access-Control-Request-Headers' => ['*'],
+                'Access-Control-Allow-Credentials' => true,
+                'Access-Control-Max-Age' => 86400,
+                'Access-Control-Expose-Headers' => [],
+            ]
         ];
 
         // re-add authentication filter
@@ -36,23 +48,7 @@ class BaseController extends ActiveController
         $behaviors['authenticator']['except'] = ['options'];
         $behaviors['authenticator']['class'] = HttpBearerAuth::className();
 
-        //                $behaviors['access'] = [
-        //                    'class' => AccessControl::className(),
-        //                    'rules' => [
-        //                        [
-        //                            'allow' => true,
-        //                            'roles' => ['@'],
-        //                        ],
-        //                    ],
-        //                ];
-
         return $behaviors;
-    }
-
-    public function beforeAction($action)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return true;
     }
 
 }

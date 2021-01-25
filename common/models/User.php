@@ -72,8 +72,16 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['access_token' => $token]);
+                return static::findOne(['auth_key' => $token]);
         //        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+
+//        foreach (self::$users as $user) {
+//            if ($user['id'] === (string) $token->getClaim('uid')) {
+//                return new static($user);
+//            }
+//        }
+
+//        return null;
     }
 
     /**
@@ -95,7 +103,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['email' => $email]);
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace frontend\controllers\api;
 
-use common\models\Contacts;
-use frontend\models\SignupForm;
+use common\models\User;
 use Yii;
 use common\models\Books;
+use yii\filters\AccessControl;
 use yii\rest\ActiveController;
 
 /**
@@ -16,16 +16,39 @@ class ApibooksController extends BaseController
     public $modelClass = 'common\models\Books';
 
     /**
-     * @return array|array[]
+     * @return array
      */
     public function behaviors(): array
     {
         $behaviors = parent::behaviors();
-        unset($behaviors['authenticator']);
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
+            'denyCallback' => function ($rule, $action) {
+                throw new \yii\web\ForbiddenHttpException('You are not allowed to access this page');
+            }
+        ];
+
         return $behaviors;
     }
 
-    public function actionIndex() {
+    public function actions(): array
+    {
+        $actions = parent::actions();
+        $actions['index']['prepareDataProvider'] = [$this, 'actionIndex'];
+        $actions['error'] = ['class' => 'yii\web\ErrorAction'];
+
+        return $actions;
+    }
+
+    public function actionMain(): array
+    {
         return Books::find()->all();
     }
 
@@ -42,12 +65,35 @@ class ApibooksController extends BaseController
         return $books;
     }
 
-    public function actionSignup()
+    /**
+     * @param $id
+     * @return array|Books|\yii\db\ActiveRecord|null
+     */
+    public function actionDetail($id)
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            return true;
+        return Books::find()
+            ->where(['id' => $id])
+            ->one();
+    }
+
+    /**
+     * @param $id
+     * @return Books
+     * @throws \yii\web\HttpException
+     */
+    public function actionEdit($id): Books
+    {
+        $book = Books::findOne(['id' => $id]);
+        if (!$book) {
+            throw new \yii\web\HttpException(404 ,'Страница не найдена');
         }
-        return false;
+        $admin = Yii::$app->user->identity;
+        if (!$admin || $admin->id !== $book->user_id) {
+            throw new \yii\web\HttpException(403 ,'У вас нет доступа');
+        }
+        if ($book->load(Yii::$app->request->post())) {
+            return $book;
+        }
+        return $book;
     }
 }

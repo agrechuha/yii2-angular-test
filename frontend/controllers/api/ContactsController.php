@@ -2,6 +2,8 @@
 
 namespace frontend\controllers\api;
 
+use common\models\Contacts;
+use yii\filters\AccessControl;
 use yii\rest\ActiveController;
 
 /**
@@ -17,8 +19,30 @@ class ContactsController extends BaseController
     public function behaviors(): array
     {
         $behaviors = parent::behaviors();
-        unset($behaviors['authenticator']);
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
+        ];
+
+//        unset($behaviors['authenticator']);
         return $behaviors;
+    }
+
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function actionInformation() {
+        return Contacts::find()->where(['name' => 'Вася Пупкин'])->all();
+    }
+
+    public function actionAllContacts() {
+        return Contacts::find()->all();
     }
 
 }
